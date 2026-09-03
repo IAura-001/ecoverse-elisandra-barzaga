@@ -18,3 +18,4 @@
 .identity{margin-top:clamp(20px,3dvh,28px)}.identity h2{margin-top:7px}.titleLine{margin-top:7px}
 .primaryActions{top:clamp(164px,21dvh,196px);bottom:auto}
 .heroVisual{top:12px}
+.discoveryRow{height:20%}.discoveryIcon.location{color:#6431bc;background:#f5efff}

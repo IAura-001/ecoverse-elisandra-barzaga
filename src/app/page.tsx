@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowUpRight, Droplets, Globe2, HeartPulse, Leaf, Phone, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Droplets, Globe2, HeartPulse, Leaf, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { FaGoogle, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { CardActions } from "@/components/card-actions";
 import { contact } from "@/config/contact";
@@ -13,6 +13,7 @@ const discoveryLinks = [
   { ...contact.website, icon: Globe2, tone: "website" },
   { ...contact.instagramEcoverse, icon: FaInstagram, tone: "instagram" },
   { ...contact.instagramPersonal, icon: Droplets, tone: "water" },
+  { ...contact.officeLocation, icon: MapPin, tone: "location" },
   { ...contact.reviews, icon: FaGoogle, tone: "google" },
 ];
 const featureIcons = [Droplets, ShieldCheck, HeartPulse, Leaf];

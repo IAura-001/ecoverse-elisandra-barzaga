@@ -4,6 +4,7 @@ export type ContactConfig = {
   instagramEcoverse: { label: string; context: string; detail?: string; url: string };
   instagramPersonal: { label: string; context: string; detail?: string; url: string };
   reviews: { label: string; context: string; detail?: string; url: string };
+  officeLocation: { label: string; context: string; detail?: string; url: string };
   website: { label: string; context: string; detail?: string; displayDomain: string; url: string };
   features: { title: string; subtitle: string }[];
   productionUrl: string;
@@ -35,6 +36,11 @@ export const contact: ContactConfig = {
     label: "Reseñas en Google",
     context: "Conoce la experiencia de nuestros clientes",
     url: "https://maps.app.goo.gl/LiujNRYbod8yVGJH6?g_st=com.google.maps.preview.copy",
+  },
+  officeLocation: {
+    label: "Oficina Miami",
+    context: "Abrir en Google Maps",
+    url: "https://maps.app.goo.gl/Mao8tzhUoP7uYgKF6?g_st=iwb",
   },
   website: {
     label: "Sitio oficial ECOVERSE",
