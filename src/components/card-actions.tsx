@@ -1,37 +1,123 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { Download, MoreHorizontal, QrCode, Share2, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
+import { Check, Link2, MoreHorizontal, Share2, X } from "lucide-react";
 import { FaAddressCard } from "react-icons/fa";
 import QRCode from "qrcode";
 import type { ContactConfig } from "@/config/contact";
 import styles from "./card-actions.module.css";
 
-function escapeVCard(value: string) { return value.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n"); }
+const PRODUCTION_URL = "https://ecoverse-francis-card.vercel.app";
+
+function escapeVCard(value: string) {
+  return value.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+}
+
 function makeVCard(contact: ContactConfig) {
-  const parts = contact.fullName.trim().split(/\s+/); const family = parts.pop() ?? "";
-  const lines = ["BEGIN:VCARD", "VERSION:3.0", `N:${escapeVCard(family)};${escapeVCard(parts.join(" "))};;;`, `FN:${escapeVCard(contact.fullName)}`, `ORG:${escapeVCard(contact.company)}`];
-  if (contact.jobTitle) lines.push(`TITLE:${escapeVCard(contact.jobTitle)}`);
-  if (contact.phone) lines.push(`TEL;TYPE=CELL,VOICE:${escapeVCard(contact.phone)}`);
-  if (contact.website) lines.push(`URL:${escapeVCard(contact.website.url)}`);
-  lines.push("END:VCARD"); return lines.join("\r\n");
+  const parts = contact.fullName.trim().split(/\s+/);
+  const family = parts.pop() ?? "";
+  const lines = [
+    "BEGIN:VCARD", "VERSION:3.0",
+    `N:${escapeVCard(family)};${escapeVCard(parts.join(" "))};;;`,
+    `FN:${escapeVCard(contact.fullName)}`,
+    `ORG:${escapeVCard(contact.company)}`,
+    `TITLE:${escapeVCard(contact.jobTitle)}`,
+    `TEL;TYPE=CELL,VOICE:${escapeVCard(contact.phone)}`,
+    `URL:${escapeVCard(contact.website.url)}`,
+  ];
+  if (contact.email) lines.push(`EMAIL;TYPE=INTERNET:${escapeVCard(contact.email)}`);
+  lines.push("END:VCARD");
+  return lines.join("\r\n");
 }
 
 export function CardActions({ contact }: { contact: ContactConfig }) {
-  const [open, setOpen] = useState(false); const [qrDataUrl, setQrDataUrl] = useState(""); const [shareLabel, setShareLabel] = useState("Compartir");
+  const [open, setOpen] = useState(false);
+  const [qrDataUrl, setQrDataUrl] = useState("");
+  const [copyLabel, setCopyLabel] = useState("Copiar enlace");
   const vCard = useMemo(() => makeVCard(contact), [contact]);
-  useEffect(() => { const url = contact.productionUrl || window.location.href; QRCode.toDataURL(url, { width: 480, margin: 2, color: { dark: "#050607", light: "#ffffff" }, errorCorrectionLevel: "H" }).then(setQrDataUrl).catch(() => setQrDataUrl("")); }, [contact.productionUrl]);
-  function saveContact() { const blob = new Blob([vCard], { type: "text/vcard;charset=utf-8" }); const url = URL.createObjectURL(blob); const link = document.createElement("a"); link.href = url; link.download = "francis-lucena-ecoverse.vcf"; link.click(); window.setTimeout(() => URL.revokeObjectURL(url), 0); }
-  async function shareCard() { const url = contact.productionUrl || window.location.href; try { if (navigator.share) await navigator.share({ title: `${contact.fullName} | ${contact.company}`, url }); else { await navigator.clipboard.writeText(url); setShareLabel("Enlace copiado"); window.setTimeout(() => setShareLabel("Compartir"), 1800); } } catch { /* The native share sheet may be dismissed. */ } }
-  return <div className={styles.utility}>
-    <button className={styles.trigger} type="button" onClick={() => setOpen(true)} aria-label="Guardar o compartir tarjeta"><MoreHorizontal aria-hidden="true" /></button>
-    {open && <div className={styles.backdrop} role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
+  const cardUrl = contact.productionUrl || PRODUCTION_URL;
+
+  useEffect(() => {
+    QRCode.toDataURL(cardUrl, {
+      width: 720,
+      margin: 3,
+      color: { dark: "#050607", light: "#ffffff" },
+      errorCorrectionLevel: "H",
+    }).then(setQrDataUrl).catch(() => setQrDataUrl(""));
+  }, [cardUrl]);
+
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [open]);
+
+  function saveContact() {
+    const blob = new Blob([vCard], { type: "text/vcard;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "francis-lucena-ecoverse.vcf";
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+
+  async function copyUrl() {
+    if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(cardUrl);
+    else {
+      const field = document.createElement("textarea");
+      field.value = cardUrl;
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand("copy");
+      field.remove();
+    }
+    setCopyLabel("Enlace copiado");
+    window.setTimeout(() => setCopyLabel("Copiar enlace"), 1800);
+  }
+
+  async function shareCard() {
+    try {
+      if (navigator.share) await navigator.share({ title: "Francis Lucena | ECOVERSE", text: "Ejecutiva de Ventas en ECOVERSE", url: cardUrl });
+      else await copyUrl();
+    } catch { /* Dismissing the native share sheet is not an error. */ }
+  }
+
+  const sheet = open ? createPortal(
+    <div className={styles.backdrop} role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
       <section className={styles.sheet} role="dialog" aria-modal="true" aria-labelledby="utility-title">
-        <header><div><span>Tarjeta digital</span><h2 id="utility-title">Guardar y compartir</h2></div><button type="button" onClick={() => setOpen(false)} aria-label="Cerrar"><X aria-hidden="true" /></button></header>
-        <div className={styles.actions}><button type="button" onClick={saveContact}><FaAddressCard aria-hidden="true" /><span>Guardar contacto</span></button><button type="button" onClick={shareCard}><Share2 aria-hidden="true" /><span>{shareLabel}</span></button></div>
-        {qrDataUrl && <div className={styles.qr}><Image src={qrDataUrl} alt={`Código QR para la tarjeta digital de ${contact.fullName}`} width={116} height={116} unoptimized /><div><QrCode aria-hidden="true" /><strong>Compartir por QR</strong><small>Escanea para abrir esta tarjeta.</small><a href={qrDataUrl} download="francis-lucena-ecoverse-qr.png"><Download aria-hidden="true" />Descargar QR</a></div></div>}
+        <span className={styles.handle} aria-hidden="true" />
+        <header className={styles.header}>
+          <div><span>ECOVERSE</span><h2 id="utility-title">Mi tarjeta digital</h2></div>
+          <button className={styles.close} type="button" onClick={() => setOpen(false)} aria-label="Cerrar menú"><X aria-hidden="true" /></button>
+        </header>
+
+        <div className={styles.qrSection}>
+          <div className={styles.qrFrame}>{qrDataUrl && <Image src={qrDataUrl} alt={`Código QR para la tarjeta de ${contact.fullName}`} width={196} height={196} unoptimized />}</div>
+          <strong>Escanea para abrir mi tarjeta</strong>
+          <small>Francis Lucena · ECOVERSE</small>
+        </div>
+
+        <div className={styles.actions}>
+          <button type="button" onClick={saveContact}><span className={styles.actionIcon}><FaAddressCard aria-hidden="true" /></span><span><strong>Guardar contacto</strong><small>Agregar a tus contactos</small></span></button>
+          <button type="button" onClick={shareCard}><span className={styles.actionIcon}><Share2 aria-hidden="true" /></span><span><strong>Compartir tarjeta</strong><small>Enviar por WhatsApp y más</small></span></button>
+          <button type="button" onClick={copyUrl}><span className={styles.actionIcon}>{copyLabel === "Enlace copiado" ? <Check aria-hidden="true" /> : <Link2 aria-hidden="true" />}</span><span><strong>{copyLabel}</strong><small>{cardUrl.replace("https://", "")}</small></span></button>
+        </div>
       </section>
-    </div>}
+    </div>, document.body) : null;
+
+  return <div className={styles.utility}>
+    <button className={styles.trigger} type="button" onClick={() => setOpen(true)} aria-label="Abrir menú de tarjeta"><MoreHorizontal aria-hidden="true" /></button>
+    {sheet}
   </div>;
 }
