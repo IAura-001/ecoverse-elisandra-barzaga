@@ -21,6 +21,4 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
-  return <JoseCard contact={contact} />;
-}
+export default function JoseNogueraPage() { return <JoseCard contact={contact} />; }
