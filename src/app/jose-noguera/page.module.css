@@ -1,0 +1,19 @@
+.discoveryRow{height:20%}
+.placeholderAction { appearance:none; width:100%; color:inherit; font:inherit; text-align:left; cursor:pointer; }
+.discoveryPlaceholder { padding:0; border:0; color:#111519; background:transparent; }
+.testimonialRow { position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:0; padding:0; }
+.testimonialAction { display:flex; width:100%; min-width:0; min-height:100%; align-items:center; justify-content:center; padding:0 6px; border:0; color:#111519; background:transparent; font:inherit; text-align:center; cursor:pointer; touch-action:manipulation; }
+.testimonialAction + .testimonialAction { border-left:1px solid #e4e8ea; }
+.testimonialActionInner { display:flex; width:100%; min-width:0; align-items:center; justify-content:center; gap:7px; }
+.testimonialAction .discoveryIcon { width:29px; height:29px; }
+.testimonialAction .discoveryIcon svg { width:14px; }
+.testimonialAction .discoveryCopy { text-align:left; }
+.heroVisual { pointer-events:none; }
+.identityTrigger { position:relative; z-index:4; display:block; appearance:none; width:clamp(218px,60vw,252px); border:0; color:inherit; background:transparent; font:inherit; text-align:left; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.testimonialAction { position:relative; z-index:2; pointer-events:auto; }
+.interactivePrimary { position:relative; z-index:6; pointer-events:auto; touch-action:manipulation; }
+.identityTrigger:hover .titleLine { width:68px; }
+.identityTrigger:focus-visible { outline:2px solid rgba(89,196,255,.5); outline-offset:3px; border-radius:4px; }
+.portfolioCta { display:block; margin-top:8px; color:#c77bf2; font-size:8px; font-weight:700; letter-spacing:.1em; line-height:1; text-transform:uppercase; transition:color 160ms ease,transform 160ms ease; }
+.identityTrigger:hover .portfolioCta { color:#6bdcf6; transform:translateX(2px); }
+@media(prefers-reduced-motion:reduce) { .portfolioCta { transition:none; } }

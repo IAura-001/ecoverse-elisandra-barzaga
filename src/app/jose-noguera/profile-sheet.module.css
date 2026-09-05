@@ -1,0 +1,47 @@
+﻿.overlay { position:fixed; z-index:1000; inset:0; width:100%; max-width:none; height:100dvh; max-height:none; margin:0; padding:12px; border:0; overflow:hidden; color:#fff; background:transparent; }
+.overlay[open] { display:flex; align-items:flex-end; justify-content:center; }
+.overlay::backdrop { background:#000b; backdrop-filter:blur(9px); }
+.sheet { position:relative; width:min(100%,430px); max-height:calc(100dvh - 24px); overflow-y:auto; overscroll-behavior:contain; padding:10px 24px max(26px,env(safe-area-inset-bottom)); border:1px solid #ffffff23; border-radius:24px; background:radial-gradient(ellipse at 0% 0%,#2a1d38,#101219 65%); box-shadow:0 -12px 70px #0007; animation:rise 200ms ease-out; }
+.sheet::after { position:absolute; top:0; left:30px; right:30px; height:1px; background:linear-gradient(90deg,transparent,#b99bcc,transparent); content:""; }
+.handle { width:34px; height:3px; margin:0 auto 20px; border-radius:4px; background:#ffffff30; }
+.header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.header>div>span { color:#b9a5cc; font-size:8px; letter-spacing:.12em; }
+.header h2 { margin-top:7px; font-size:26px; font-weight:500; letter-spacing:-.035em; }
+.header button,.navigation button { display:grid; place-items:center; width:44px; height:44px; flex-shrink:0; border:1px solid #ffffff24; border-radius:50%; color:#e9e3f0; background:#ffffff06; cursor:pointer; }
+.header button svg,.navigation button svg { width:18px; height:18px; }
+.sheet button:focus-visible,.sheet a:focus-visible { outline:2px solid #89ceff; outline-offset:3px; }
+.tabs { display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:24px; padding:4px; border:1px solid #ffffff18; border-radius:12px; background:#ffffff08; }
+.tabs button { min-height:38px; border:0; border-radius:8px; color:#aaa0b5; background:transparent; font-size:11px; font-weight:650; cursor:pointer; }
+.tabs .activeTab { color:#17131d; background:#f1eafa; box-shadow:0 4px 14px #0003; }
+.testimonial { padding:30px 0 24px; touch-action:pan-y; }
+.testimonialImage { display:block; width:100%; height:auto; max-height:270px; object-fit:cover; border-radius:14px; }
+.quoteMark { width:33px; height:33px; color:#bc88d7; stroke-width:1; }
+.preview { margin-top:17px; color:#b8a5c6; font-size:9px; letter-spacing:.11em; text-transform:uppercase; }
+.neutralCopy { margin-top:18px; color:#eee9f3; font-size:20px; line-height:1.45; }
+.testimonial blockquote { margin:18px 0 25px; color:#eee9f3; font-family:Georgia,"Times New Roman",serif; font-size:clamp(24px,6.5vw,29px); font-weight:400; line-height:1.45; letter-spacing:-.025em; overflow-wrap:anywhere; }
+.attribution { display:flex; align-items:center; gap:13px; }
+.attribution>span { width:25px; height:1px; background:#a378bb; }
+.attribution strong { display:block; font-size:13px; font-weight:550; }
+.attribution small { display:block; margin-top:6px; color:#aca4b7; font-size:11px; line-height:1.5; }
+.rating { display:flex; align-items:center; gap:7px; margin:0 0 18px 38px; color:#cdb397; font-size:11px; }
+.navigation { display:flex; align-items:center; justify-content:space-between; padding-top:18px; border-top:1px solid #ffffff16; }
+.navigation>span { font-size:12px; font-variant-numeric:tabular-nums; letter-spacing:.14em; }
+.navigation>span>span { color:#8e859c; }
+.navigation>div { display:flex; gap:10px; }
+.navigation button:hover,.header button:hover { background:#ffffff12; }
+.navigation button:disabled { opacity:.35; cursor:default; }
+.note { margin-top:20px; color:#ada4b8; font-size:11px; line-height:1.65; }
+.reviewsPanel { padding:42px 0 52px; }
+.reviewIcon { display:grid; width:54px; height:54px; place-items:center; border:1px solid #ffffff25; border-radius:50%; color:#4285f4; background:#f2f7ff; font-size:25px; }
+.reviewsPanel h3 { margin-top:18px; color:#eee9f3; font-size:24px; font-weight:500; letter-spacing:-.03em; }
+.reviewsPanel>p:not(.preview) { margin-top:10px; color:#b9b0c3; font-size:13px; line-height:1.65; }
+.reviewLink { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:30px; padding:14px 16px; border:1px solid #ffffff24; border-radius:12px; color:#f1eafa; background:#ffffff09; font-size:12px; font-weight:650; }
+.reviewLink svg { width:16px; }
+.intro { margin-top:24px; color:#c1b7cb; font-size:13px; line-height:1.7; }
+.contacts { margin-top:15px; }
+.contacts>div,.contacts>a { display:flex; align-items:center; gap:14px; min-height:70px; border-bottom:1px solid #ffffff15; overflow-wrap:anywhere; }
+.contacts svg { width:20px; height:20px; flex-shrink:0; color:#bb99d4; }
+.contacts strong { display:block; font-size:13px; font-weight:550; }
+.contacts small { display:block; margin-top:6px; color:#a9a3b4; font-size:11px; }
+@keyframes rise { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@media(prefers-reduced-motion:reduce) { .sheet { animation:none; } }
