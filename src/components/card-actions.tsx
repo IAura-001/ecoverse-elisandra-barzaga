@@ -6,15 +6,38 @@ import { createPortal } from "react-dom";
 import { Check, Link2, MoreHorizontal, Share2, X } from "lucide-react";
 import { FaAddressCard } from "react-icons/fa";
 import QRCode from "qrcode";
-import { LEGACY_CARD_URL, makeVCard, type CardContact } from "@/lib/card-profile";
+import type { ContactConfig } from "@/config/contact";
 import styles from "./card-actions.module.css";
 
-export function CardActions({ contact }: { contact: CardContact }) {
+const PRODUCTION_URL = "https://ecoverse-francis-card.vercel.app";
+
+function escapeVCard(value: string) {
+  return value.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+}
+
+function makeVCard(contact: ContactConfig) {
+  const parts = contact.fullName.trim().split(/\s+/);
+  const family = parts.pop() ?? "";
+  const lines = [
+    "BEGIN:VCARD", "VERSION:3.0",
+    `N:${escapeVCard(family)};${escapeVCard(parts.join(" "))};;;`,
+    `FN:${escapeVCard(contact.fullName)}`,
+    `ORG:${escapeVCard(contact.company)}`,
+    `TITLE:${escapeVCard(contact.jobTitle)}`,
+    `TEL;TYPE=CELL,VOICE:${escapeVCard(contact.phone)}`,
+    `URL:${escapeVCard(contact.website.url)}`,
+  ];
+  if (contact.email) lines.push(`EMAIL;TYPE=INTERNET:${escapeVCard(contact.email)}`);
+  lines.push("END:VCARD");
+  return lines.join("\r\n");
+}
+
+export function CardActions({ contact }: { contact: ContactConfig }) {
   const [open, setOpen] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState("");
   const [copyLabel, setCopyLabel] = useState("Copiar enlace");
   const vCard = useMemo(() => makeVCard(contact), [contact]);
-  const cardUrl = contact.productionUrl || LEGACY_CARD_URL;
+  const cardUrl = contact.productionUrl || PRODUCTION_URL;
 
   useEffect(() => {
     QRCode.toDataURL(cardUrl, {
@@ -42,7 +65,7 @@ export function CardActions({ contact }: { contact: CardContact }) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${contact.slug || "francis-lucena"}-ecoverse.vcf`;
+    link.download = "francis-lucena-ecoverse.vcf";
     link.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 0);
   }
@@ -65,7 +88,7 @@ export function CardActions({ contact }: { contact: CardContact }) {
 
   async function shareCard() {
     try {
-      if (navigator.share) await navigator.share({ title: `${contact.fullName} | ${contact.company}`, text: `${contact.jobTitle} en ${contact.company}`, url: cardUrl });
+      if (navigator.share) await navigator.share({ title: "Francis Lucena | ECOVERSE", text: "Ejecutiva de Ventas en ECOVERSE", url: cardUrl });
       else await copyUrl();
     } catch { /* Dismissing the native share sheet is not an error. */ }
   }
@@ -82,7 +105,7 @@ export function CardActions({ contact }: { contact: CardContact }) {
         <div className={styles.qrSection}>
           <div className={styles.qrFrame}>{qrDataUrl && <Image src={qrDataUrl} alt={`Código QR para la tarjeta de ${contact.fullName}`} width={196} height={196} unoptimized />}</div>
           <strong>Escanea para abrir mi tarjeta</strong>
-          <small>{contact.fullName} · {contact.company}</small>
+          <small>Francis Lucena · ECOVERSE</small>
         </div>
 
         <div className={styles.actions}>
