@@ -19,3 +19,8 @@
 .primaryActions{top:clamp(164px,21dvh,196px);bottom:auto}
 .heroVisual{top:12px}
 .discoveryRow{height:20%}.discoveryIcon.location{color:#6431bc;background:#f5efff}
+
+/* Keep the existing section sizes when a profile omits the benefits strip. */
+.cardWithoutFeatures{height:87dvh;min-height:596px;grid-template-rows:minmax(286px,42fr) minmax(228px,32fr) minmax(82px,13fr)}
+.identityWithoutTitle h1,.cardWithoutFeatures .identity h1{white-space:normal;font-size:clamp(26px,8vw,34px)}
+@media(min-width:680px){.cardWithoutFeatures{height:min(810.84px,calc((100dvh - 64px)*.87))}}

@@ -23,7 +23,7 @@ function makeVCard(contact: ContactConfig) {
     `N:${escapeVCard(family)};${escapeVCard(parts.join(" "))};;;`,
     `FN:${escapeVCard(contact.fullName)}`,
     `ORG:${escapeVCard(contact.company)}`,
-    `TITLE:${escapeVCard(contact.jobTitle)}`,
+    ...(contact.jobTitle ? [`TITLE:${escapeVCard(contact.jobTitle)}`] : []),
     `TEL;TYPE=CELL,VOICE:${escapeVCard(contact.phone)}`,
     `URL:${escapeVCard(contact.website.url)}`,
   ];
@@ -65,7 +65,7 @@ export function CardActions({ contact }: { contact: ContactConfig }) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "francis-lucena-ecoverse.vcf";
+    link.download = `${contact.fullName.toLowerCase().replace(/\s+/g, "-")}-ecoverse.vcf`;
     link.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 0);
   }
@@ -88,7 +88,11 @@ export function CardActions({ contact }: { contact: ContactConfig }) {
 
   async function shareCard() {
     try {
-      if (navigator.share) await navigator.share({ title: "Francis Lucena | ECOVERSE", text: "Ejecutiva de Ventas en ECOVERSE", url: cardUrl });
+      if (navigator.share) await navigator.share({
+  title: `${contact.fullName} | ${contact.company}`,
+  text: contact.jobTitle ? `${contact.jobTitle} en ${contact.company}` : `${contact.fullName} | ${contact.company}`,
+  url: cardUrl,
+});
       else await copyUrl();
     } catch { /* Dismissing the native share sheet is not an error. */ }
   }
@@ -105,7 +109,7 @@ export function CardActions({ contact }: { contact: ContactConfig }) {
         <div className={styles.qrSection}>
           <div className={styles.qrFrame}>{qrDataUrl && <Image src={qrDataUrl} alt={`Código QR para la tarjeta de ${contact.fullName}`} width={196} height={196} unoptimized />}</div>
           <strong>Escanea para abrir mi tarjeta</strong>
-          <small>Francis Lucena · ECOVERSE</small>
+          <small>{contact.fullName} · {contact.company}</small>
         </div>
 
         <div className={styles.actions}>
