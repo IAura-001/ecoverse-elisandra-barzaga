@@ -4,6 +4,12 @@ import { elisandraBarzagaContact as contact } from "@/config/elisandra-barzaga";
 
 const title = `${contact.fullName} | ${contact.company}`;
 const description = `Tarjeta digital de ${contact.fullName} | ${contact.company}`;
+const previewImage = {
+  url: new URL("/ecoverse/elisandra-social-preview.png", contact.productionUrl).href,
+  width: 1200,
+  height: 630,
+  alt: `${contact.fullName} — EJECUTIVA DE VENTAS | ${contact.company}`,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("/", contact.productionUrl),
@@ -14,13 +20,13 @@ export const metadata: Metadata = {
     description,
     type: "profile",
     url: contact.productionUrl,
-    images: [{ url: "/ecoverse/logo-full.png", alt: contact.company }],
+    images: [previewImage],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title,
     description,
-    images: ["/ecoverse/logo-full.png"],
+    images: [previewImage],
   },
 };
 

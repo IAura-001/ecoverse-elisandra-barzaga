@@ -3,7 +3,7 @@ import { contact, type ContactConfig } from "./contact";
 const productionOrigin = process.env.NEXT_PUBLIC_ELISANDRA_CARD_URL
   || (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "https://ecoverse-francis-card.vercel.app");
+    : "https://ecoverse-elisandra-barzaga.vercel.app");
 
 export const elisandraBarzagaContact: ContactConfig = {
   fullName: "Elisandra Barzaga",
@@ -25,5 +25,5 @@ export const elisandraBarzagaContact: ContactConfig = {
   reviews: contact.reviews,
   website: contact.website,
   features: [],
-  productionUrl: new URL("/elisandra-barzaga", productionOrigin).href,
+  productionUrl: new URL("/", productionOrigin).href,
 };
