@@ -24,3 +24,14 @@
 .cardWithoutFeatures{height:87dvh;min-height:596px;grid-template-rows:minmax(286px,42fr) minmax(228px,32fr) minmax(82px,13fr)}
 .identityWithoutTitle h1,.cardWithoutFeatures .identity h1{white-space:normal;font-size:clamp(26px,8vw,34px)}
 @media(min-width:680px){.cardWithoutFeatures{height:min(810.84px,calc((100dvh - 64px)*.87))}}
+
+/* An optional section grows the card without resizing the original sections. */
+.cardWithTechnology{
+  --original-height:max(596px,87dvh);
+  --discovery-height:max(228px,calc(var(--original-height)*32/87));
+  --hero-height:max(286px,min(calc(var(--original-height)*42/87),calc((var(--original-height) - 228px)*42/55)));
+  height:auto;
+  min-height:0;
+  grid-template-rows:var(--hero-height) var(--discovery-height) auto calc(var(--original-height) - var(--hero-height) - var(--discovery-height));
+}
+@media(min-width:680px){.cardWithTechnology{--original-height:calc(max(596px,min(810.84px,calc((100dvh - 64px)*.87))) - 2px)}}

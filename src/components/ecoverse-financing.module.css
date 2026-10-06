@@ -1,0 +1,28 @@
+.section { padding: 0 18px 22px; background: #fff; }
+.card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #38274c;
+  border-radius: 14px;
+  color: #fff;
+  background: radial-gradient(circle at 100% 0, #251537, transparent 70%), #080b10;
+}
+.icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  place-items: center;
+  border: 1px solid #7444a859;
+  border-radius: 10px;
+  color: #c368f3;
+  background: #a942f512;
+}
+.icon svg { width: 18px; height: 18px; }
+.copy { min-width: 0; }
+.copy h2 { color: #c6a0f1; font-size: 10px; font-weight: 750; letter-spacing: .08em; line-height: 1.5; }
+.copy p { margin-top: 5px; color: #d3d9e4; font-size: 13px; line-height: 1.5; }
+.copy strong { color: #fff; font-size: 18px; font-weight: 750; }
+@media (max-width: 374px) { .section { padding-right: 15px; padding-left: 15px; } .card { padding: 14px; gap: 10px; } }

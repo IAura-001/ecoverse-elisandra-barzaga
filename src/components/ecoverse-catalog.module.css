@@ -1,0 +1,33 @@
+.section { padding: 0 18px 22px; background: #fff; }
+.card {
+  padding: 20px 16px;
+  border: 1px solid #38274c;
+  border-radius: 14px;
+  color: #fff;
+  background: radial-gradient(circle at 100% 0, #251537, transparent 70%), #080b10;
+}
+.icon { width: 24px; height: 24px; margin-bottom: 12px; color: #c368f3; }
+.card h2 { font-size: 12px; font-weight: 750; letter-spacing: .1em; line-height: 1.5; }
+.card p { margin-top: 8px; color: #c1c9d6; font-size: 12px; line-height: 1.6; }
+.cta {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px solid #a567ec66;
+  border-radius: 10px;
+  background: linear-gradient(110deg, #7432bd, #345dcc);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .07em;
+  line-height: 1.5;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+.cta svg { width: 18px; height: 18px; flex-shrink: 0; }
+.cta:hover { transform: translateY(-1px); border-color: #c368f3; }
+.cta:focus-visible { outline: 3px solid #59c4ff; outline-offset: 3px; }
+@media (max-width: 374px) { .section { padding-right: 15px; padding-left: 15px; } }
+@media (prefers-reduced-motion: reduce) { .cta { transition: none; } }

@@ -1,0 +1,71 @@
+.section {
+  padding: 18px 18px 22px;
+  background: #fff;
+}
+
+.heading {
+  margin-bottom: 12px;
+  color: #6431bc;
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: .17em;
+  line-height: 1.4;
+}
+
+.cards { display: grid; gap: 10px; }
+
+.card {
+  overflow: hidden;
+  border: 1px solid #252238;
+  border-radius: 14px;
+  color: #fff;
+  background: radial-gradient(circle at 100% 0, #21152f, transparent 65%), #080b10;
+  box-shadow: 0 5px 16px #1113260d;
+  transition: border-color 160ms ease;
+}
+
+.card:hover, .card[open] { border-color: #8150bc; }
+
+.summary {
+  display: flex;
+  min-height: 80px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.summary::-webkit-details-marker { display: none; }
+.summary:focus-visible { outline: 3px solid #59c4ff; outline-offset: -4px; border-radius: 13px; }
+.copy { display: grid; min-width: 0; gap: 5px; }
+.name { font-size: 12px; font-weight: 750; letter-spacing: .055em; line-height: 1.4; }
+.subtitle { color: #acb4c3; font-size: 11px; line-height: 1.45; }
+
+.indicator {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  padding: 5px;
+  border: 1px solid #7444a859;
+  border-radius: 50%;
+  color: #c368f3;
+  background: #a942f512;
+  transition: transform 160ms ease;
+}
+
+.card[open] .indicator { transform: rotate(180deg); }
+.content { margin: 0 16px; padding: 14px 0 17px; border-top: 1px solid #ffffff14; }
+.card[open] .content { animation: reveal 160ms ease both; }
+.intro { margin-bottom: 16px; color: #d3d9e4; font-size: 12px; line-height: 1.6; }
+.features { display: grid; gap: 14px; }
+.feature { padding-left: 12px; border-left: 2px solid #7045b4; }
+.feature dt, .stage strong { color: #c6a0f1; font-size: 10px; font-weight: 750; letter-spacing: .08em; line-height: 1.5; }
+.feature dd, .stage p { margin-top: 4px; color: #c1c9d6; font-size: 12px; line-height: 1.6; }
+.stages { display: grid; gap: 14px; padding-left: 23px; }
+.stage { padding-left: 6px; }
+.stage::marker { color: #82aaff; font-size: 12px; font-weight: 750; }
+@keyframes reveal { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 374px) { .section { padding-right: 15px; padding-left: 15px; } .summary { padding: 14px; } }
+@media (prefers-reduced-motion: reduce) { .card, .indicator { transition: none; } .card[open] .content { animation: none; } }

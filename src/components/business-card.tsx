@@ -1,11 +1,12 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { ArrowUpRight, Droplets, Globe2, HeartPulse, Leaf, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { FaGoogle, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { CardActions } from "@/components/card-actions";
 import type { ContactConfig } from "@/config/contact";
 import styles from "@/app/page.module.css";
 
-export function BusinessCard({ contact }: { contact: ContactConfig }) {
+export function BusinessCard({ contact, beforeFooter }: { contact: ContactConfig; beforeFooter?: ReactNode }) {
   const primaryActions = [
     { label: "Llamar ahora", subtitle: contact.phoneActionDisplay, href: `tel:${contact.phone}`, icon: Phone, external: false, tone: "call" },
     { label: "WhatsApp directo", subtitle: "Escríbeme ahora", href: contact.whatsapp, icon: FaWhatsapp, external: true, tone: "whatsapp" },
@@ -19,7 +20,7 @@ export function BusinessCard({ contact }: { contact: ContactConfig }) {
   ];
   const featureIcons = [Droplets, ShieldCheck, HeartPulse, Leaf];
 
-  return <main className={styles.page}><article className={`${styles.card} ${contact.features.length === 0 ? styles.cardWithoutFeatures : ""}`} aria-labelledby="card-name">
+  return <main className={styles.page}><article className={`${styles.card} ${contact.features.length === 0 ? styles.cardWithoutFeatures : ""} ${beforeFooter ? styles.cardWithTechnology : ""}`} aria-labelledby="card-name">
     <section className={styles.hero}>
       <header className={styles.logoHeader}><Image src="/ecoverse/logo-full.png" alt="ECOVERSE - Finest Water Technology" width={310} height={57} priority /></header>
       <CardActions contact={contact} />
@@ -38,6 +39,7 @@ export function BusinessCard({ contact }: { contact: ContactConfig }) {
         </a>)}</div>
     </section>
     {contact.features.length > 0 && <section className={styles.valueStrip} aria-label="Beneficios ECOVERSE">{contact.features.map((feature, index) => { const Icon = featureIcons[index]; return <div className={styles.valueItem} key={feature.title}><Icon aria-hidden="true" /><strong>{feature.title}</strong><span>{feature.subtitle}</span></div>; })}</section>}
+    {beforeFooter}
     <footer className={styles.footer}><Image src="/ecoverse/logo-full.png" alt="ECOVERSE - Finest Water Technology" width={250} height={46} /><a href={contact.website.url} target="_blank" rel="noopener noreferrer">{contact.website.displayDomain}</a></footer>
   </article></main>;
 }
