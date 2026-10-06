@@ -1,0 +1,33 @@
+.section { padding: 0 18px 22px; background: #fff; }
+.section h2 { color: #6431bc; font-size: 10px; font-weight: 760; letter-spacing: .17em; line-height: 1.5; }
+.subtitle { margin-top: 6px; color: #667079; font-size: 12px; line-height: 1.5; }
+.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-top: 14px; }
+.thumbnail {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid #dfe4e7;
+  border-radius: 12px;
+  background: #080b10;
+  cursor: pointer;
+  transition: border-color 160ms ease;
+}
+.thumbnail:hover { border-color: #a942f5; }
+.thumbnail:focus-visible, .close:focus-visible { outline: 3px solid #59c4ff; outline-offset: 3px; }
+.photo, .preview { width: 100%; height: 100%; object-fit: cover; }
+.preview { display: block; pointer-events: none; }
+.play { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: #fff; background: #03040540; }
+.play svg { width: 38px; height: 38px; padding: 9px; border: 1px solid #ffffff66; border-radius: 50%; background: #6431bcdf; }
+.play span { font-size: 9px; font-weight: 750; letter-spacing: .14em; }
+.dialog { width: min(960px, calc(100% - 24px)); max-height: 90dvh; margin: auto; padding: 0; border: 1px solid #7444a859; border-radius: 16px; color: #fff; background: #080b10; }
+.dialog::backdrop { background: #030405dd; backdrop-filter: blur(5px); }
+.modal { position: relative; padding-top: 54px; }
+.close { position: absolute; top: 8px; right: 10px; display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid #ffffff33; border-radius: 50%; color: #fff; background: #21152f; cursor: pointer; }
+.close svg { width: 20px; height: 20px; }
+.fullImage { position: relative; height: min(74dvh, 800px); }
+.contain { object-fit: contain; }
+.video { display: block; width: 100%; max-height: 74dvh; background: #030405; }
+@media (max-width: 374px) { .section { padding-right: 15px; padding-left: 15px; } }
+@media (prefers-reduced-motion: reduce) { .thumbnail { transition: none; } }

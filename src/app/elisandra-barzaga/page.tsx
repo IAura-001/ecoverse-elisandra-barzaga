@@ -3,6 +3,7 @@ import { BusinessCard } from "@/components/business-card";
 import { EcoverseTechnology } from "@/components/ecoverse-technology";
 import { EcoverseCatalog } from "@/components/ecoverse-catalog";
 import { EcoverseFinancing } from "@/components/ecoverse-financing";
+import { EcoverseInstallations } from "@/components/ecoverse-installations";
 import { elisandraBarzagaContact as contact } from "@/config/elisandra-barzaga";
 
 const title = `${contact.fullName} | ${contact.company}`;
@@ -34,5 +35,5 @@ export const metadata: Metadata = {
 };
 
 export default function ElisandraBarzagaPage() {
-  return <BusinessCard contact={contact} beforeFooter={<div><EcoverseTechnology /><EcoverseFinancing /><EcoverseCatalog /></div>} />;
+  return <BusinessCard contact={contact} beforeFooter={<div><EcoverseTechnology /><EcoverseFinancing /><EcoverseCatalog /><EcoverseInstallations /></div>} />;
 }
